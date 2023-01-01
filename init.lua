@@ -1,6 +1,6 @@
--- Install packer
 local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
 local is_bootstrap = false
+-- Install packer
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   is_bootstrap = true
   vim.fn.system { 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path }
@@ -10,6 +10,11 @@ end
 require('packer').startup(function(use)
   -- Package manager
   use 'wbthomason/packer.nvim'
+  use 'fedepujol/move.nvim'
+  use 'github/copilot.vim'
+  use 'fatih/vim-go'
+  use 'preservim/nerdtree'
+  use 'tanvirtin/monokai.nvim'
 
   use { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
@@ -53,6 +58,7 @@ require('packer').startup(function(use)
   use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines
   use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
   use 'tpope/vim-sleuth' -- Detect tabstop and shiftwidth automatically
+
 
   -- Fuzzy Finder (files, lsp, etc)
   use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
@@ -315,7 +321,7 @@ local on_attach = function(_, bufnr)
 
   -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+  -- nmap('<C-K>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- Lesser used LSP functionality
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
@@ -433,4 +439,22 @@ cmp.setup {
 
  vim.g.copilot_assume_mapped = true
 
+-- move line bindings
+local opts = { noremap = true, silent = true }
+-- Normal-mode commands
+-- bint C-j to :MoveLine(1)
+vim.api.nvim_set_keymap('n', '<C-j>', ':MoveLine(1)<CR>', opts)
+vim.api.nvim_set_keymap('n', '<C-k>', ':MoveLine(-1)<CR>', opts)
 
+-- Map Nerdtree
+vim.api.nvim_set_keymap('n', 'nf', ':NERDTreeFocus<CR>', {})
+vim.api.nvim_set_keymap('n', 'nt', ':NERDTreeToggle<CR>', {})
+--vim.api.nvim_set_keymap('n', '<C-f>', ':NERDTreeFind<CR>', {})
+vim.api.nvim_set_keymap('n', 'nm', ':NERDTreeMirror<CR>', {})
+-- Open the existing NERDTree on each new tab.
+
+-- THEME
+require('monokai').setup {}
+require('monokai').setup { palette = require('monokai').pro }
+-- require('monokai').setup { palette = require('monokai').soda }
+-- require('monokai').setup { palette = require('monokai').ristretto }
