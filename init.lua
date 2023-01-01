@@ -15,6 +15,10 @@ require('packer').startup(function(use)
   use 'fatih/vim-go'
   use 'preservim/nerdtree'
   use 'tanvirtin/monokai.nvim'
+  use 'folke/tokyonight.nvim'
+  -- dev icons for telescope, etc
+  use 'nvim-tree/nvim-web-devicons'
+
 
   use { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
@@ -199,6 +203,12 @@ require('telescope').setup {
         ['<C-u>'] = false,
         ['<C-d>'] = false,
       },
+    },
+    -- layout_strategy = 'vertical',
+    -- layout_config = { height = 0.95 },
+    layout_config = {
+      vertical = { width = 0.6 }
+      -- other layout configuration here
     },
   },
 }
@@ -443,18 +453,57 @@ cmp.setup {
 local opts = { noremap = true, silent = true }
 -- Normal-mode commands
 -- bint C-j to :MoveLine(1)
+-- Move line in n mode
 vim.api.nvim_set_keymap('n', '<C-j>', ':MoveLine(1)<CR>', opts)
 vim.api.nvim_set_keymap('n', '<C-k>', ':MoveLine(-1)<CR>', opts)
 
 -- Map Nerdtree
-vim.api.nvim_set_keymap('n', 'nf', ':NERDTreeFocus<CR>', {})
-vim.api.nvim_set_keymap('n', 'nt', ':NERDTreeToggle<CR>', {})
+vim.api.nvim_set_keymap('n', 'tf', ':NERDTreeFocus<CR>', {})
+vim.api.nvim_set_keymap('n', 'tt', ':NERDTreeToggle<CR>', {})
 --vim.api.nvim_set_keymap('n', '<C-f>', ':NERDTreeFind<CR>', {})
-vim.api.nvim_set_keymap('n', 'nm', ':NERDTreeMirror<CR>', {})
+vim.api.nvim_set_keymap('n', 'tm', ':NERDTreeMirror<CR>', {})
+-- Open nerdtree by default (lua)
+-- TODO
+
+--nvim.command("autocmd StdinReadPre * let s:std_in=1")
+--
 -- Open the existing NERDTree on each new tab.
+-- TODO
 
 -- THEME
-require('monokai').setup {}
-require('monokai').setup { palette = require('monokai').pro }
--- require('monokai').setup { palette = require('monokai').soda }
--- require('monokai').setup { palette = require('monokai').ristretto }
+vim.cmd[[colorscheme tokyonight]]
+
+-- Basic nav config
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.softtabstop = 4
+vim.opt.expandtab = true
+
+vim.opt.backup = false
+vim.opt.writebackup = false
+vim.opt.swapfile = false
+
+vim.opt.hlsearch = false
+vim.opt.incsearch = true
+vim.opt.scrolloff = 8
+vim.opt.sidescrolloff = 8
+vim.opt.updatetime = 50
+vim.opt.signcolumn = 'yes'
+vim.opt.isfname:append("@-@")
+vim.opt.colorcolumn = "80"
+vim.opt.termguicolors = true
+
+vim.g.mapleader = " "
+
+-- REMAPS
+vim.keymap.set('v', 'J', ':m \'>+1<CR>gv=gv', { noremap = true, silent = true })
+vim.keymap.set('v', 'K', ':m \'<-2<CR>gv=gv', { noremap = true, silent = true })
+vim.keymap.set('n', 'Y', 'yg$', { noremap = true, silent = true })
+vim.keymap.set('n', 'J', 'mzJ`z', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-d>', '<C-d>zz', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-u>', '<C-u>zz', { noremap = true, silent = true })
+vim.keymap.set('n', 'n', 'nzzzv', { noremap = true, silent = true })
+vim.keymap.set('n', 'N', 'Nzzzv', { noremap = true, silent = true })
+-- paste and throw away replaced place to null buffer
+vim.keymap.set('x', '<leader>p', '\"_dP', { noremap = true, silent = true })
+
