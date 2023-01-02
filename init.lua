@@ -19,6 +19,8 @@ require('packer').startup(function(use)
   -- dev icons for telescope, etc
   use 'nvim-tree/nvim-web-devicons'
   use 'theprimeagen/harpoon'
+  use 'mbbill/undotree'
+  use 'tpope.io/vim/fugitive'
 
 
   use { -- LSP Configuration & Plugins
@@ -211,6 +213,7 @@ require('telescope').setup {
       vertical = { width = 0.6 }
       -- other layout configuration here
     },
+    sorting_strategy = "ascending"
   },
 }
 
@@ -475,14 +478,22 @@ vim.api.nvim_set_keymap('n', 'tm', ':NERDTreeMirror<CR>', {})
 vim.cmd[[colorscheme tokyonight]]
 
 -- Basic nav config
+vim.opt.guicursor = ""
+vim.opt.nu = true
+vim.opt.relativenumber = true
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
 vim.opt.expandtab = true
 
+vim.opt.smartindent = true
+vim.opt.wrap = false
+
 vim.opt.backup = false
 vim.opt.writebackup = false
 vim.opt.swapfile = false
+vim.opt.undodir = os.getenv('HOME') .. '/.config/nvim/undodir'
+vim.opt.undofile = true
 
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
@@ -497,6 +508,7 @@ vim.opt.termguicolors = true
 vim.g.mapleader = " "
 
 -- REMAPS
+
 vim.keymap.set('v', 'J', ':m \'>+1<CR>gv=gv', opts)
 vim.keymap.set('v', 'K', ':m \'<-2<CR>gv=gv', opts)
 vim.keymap.set('n', 'Y', 'yg$', opts)
@@ -518,4 +530,8 @@ vim.keymap.set('n', '<C-t>', function() ui.nav_file(2) end, opts)
 vim.keymap.set('n', '<C-n>', function() ui.nav_file(3) end, opts)
 vim.keymap.set('n', '<C-s>', function() ui.nav_file(4) end, opts)
 
-
+-- undotree
+vim.keymap.set('n', '<leader>u', ':UndotreeToggle<CR>', opts)
+-- fugitive
+-- vim.keymap.set('n', '<leader>gs', ':G<CR>', opts)
+vim.keymap.set('n', '<leader>gs', vim.cmd.Git, opts)

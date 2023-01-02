@@ -104,6 +104,11 @@ _G.packer_plugins = {
     path = "/Users/kass/.local/share/nvim/site/pack/packer/start/fidget.nvim",
     url = "https://github.com/j-hui/fidget.nvim"
   },
+  fugitive = {
+    loaded = true,
+    path = "/Users/kass/.local/share/nvim/site/pack/packer/start/fugitive",
+    url = "https://github.com/tpope.io/vim/fugitive"
+  },
   ["gitsigns.nvim"] = {
     loaded = true,
     path = "/Users/kass/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
@@ -213,6 +218,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/kass/.local/share/nvim/site/pack/packer/start/tokyonight.nvim",
     url = "https://github.com/folke/tokyonight.nvim"
+  },
+  undotree = {
+    loaded = true,
+    path = "/Users/kass/.local/share/nvim/site/pack/packer/start/undotree",
+    url = "https://github.com/mbbill/undotree"
   },
   ["vim-fugitive"] = {
     loaded = true,
