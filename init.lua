@@ -18,6 +18,7 @@ require('packer').startup(function(use)
   use 'folke/tokyonight.nvim'
   -- dev icons for telescope, etc
   use 'nvim-tree/nvim-web-devicons'
+  use 'theprimeagen/harpoon'
 
 
   use { -- LSP Configuration & Plugins
@@ -284,15 +285,15 @@ require('nvim-treesitter.configs').setup {
         ['[]'] = '@class.outer',
       },
     },
-    swap = {
-      enable = true,
-      swap_next = {
-        ['<leader>a'] = '@parameter.inner',
-      },
-      swap_previous = {
-        ['<leader>A'] = '@parameter.inner',
-      },
-    },
+    -- swap = {
+    --   enable = true,
+    --   swap_next = {
+    --     ['<leader>a'] = '@parameter.inner',
+    --   },
+    --   swap_previous = {
+    --     ['<leader>A'] = '@parameter.inner',
+    --   },
+    -- },
   },
 }
 
@@ -496,14 +497,25 @@ vim.opt.termguicolors = true
 vim.g.mapleader = " "
 
 -- REMAPS
-vim.keymap.set('v', 'J', ':m \'>+1<CR>gv=gv', { noremap = true, silent = true })
-vim.keymap.set('v', 'K', ':m \'<-2<CR>gv=gv', { noremap = true, silent = true })
-vim.keymap.set('n', 'Y', 'yg$', { noremap = true, silent = true })
-vim.keymap.set('n', 'J', 'mzJ`z', { noremap = true, silent = true })
-vim.keymap.set('n', '<C-d>', '<C-d>zz', { noremap = true, silent = true })
+vim.keymap.set('v', 'J', ':m \'>+1<CR>gv=gv', opts)
+vim.keymap.set('v', 'K', ':m \'<-2<CR>gv=gv', opts)
+vim.keymap.set('n', 'Y', 'yg$', opts)
+vim.keymap.set('n', 'J', 'mzJ`z', opts)
+vim.keymap.set('n', '<C-d>', '<C-d>zz', opts)
 vim.keymap.set('n', '<C-u>', '<C-u>zz', { noremap = true, silent = true })
-vim.keymap.set('n', 'n', 'nzzzv', { noremap = true, silent = true })
-vim.keymap.set('n', 'N', 'Nzzzv', { noremap = true, silent = true })
+vim.keymap.set('n', 'n', 'nzzzv', opts)
+vim.keymap.set('n', 'N', 'Nzzzv', opts)
 -- paste and throw away replaced place to null buffer
-vim.keymap.set('x', '<leader>p', '\"_dP', { noremap = true, silent = true })
+vim.keymap.set('x', '<leader>p', '\"_dP', opts)
+
+-- harpoon settings
+local mark = require('harpoon.mark')
+local ui = require('harpoon.ui')
+vim.keymap.set('n', '<leader>a', mark.add_file, opts)
+vim.keymap.set('n', '<C-e>', ui.toggle_quick_menu, opts)
+vim.keymap.set('n', '<C-h>', function() ui.nav_file(1) end, opts)
+vim.keymap.set('n', '<C-t>', function() ui.nav_file(2) end, opts)
+vim.keymap.set('n', '<C-n>', function() ui.nav_file(3) end, opts)
+vim.keymap.set('n', '<C-s>', function() ui.nav_file(4) end, opts)
+
 
